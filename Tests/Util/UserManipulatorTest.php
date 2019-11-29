@@ -12,15 +12,17 @@
 namespace FOS\UserBundle\Tests\Util;
 
 use FOS\UserBundle\FOSUserEvents;
+use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Tests\TestUser;
 use FOS\UserBundle\Util\UserManipulator;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserManipulatorTest extends TestCase
 {
     public function testCreate()
     {
-        $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
+        $userManagerMock = $this->getMockBuilder(UserManagerInterface::class)->getMock();
         $user = new TestUser();
 
         $username = 'test_username';
@@ -31,12 +33,12 @@ class UserManipulatorTest extends TestCase
 
         $userManagerMock->expects($this->once())
             ->method('createUser')
-            ->will($this->returnValue($user));
+            ->willReturn($user);
 
         $userManagerMock->expects($this->once())
             ->method('updateUser')
-            ->will($this->returnValue($user))
-            ->with($this->isInstanceOf('FOS\UserBundle\Tests\TestUser'));
+            ->willReturn($user)
+            ->with($this->isInstanceOf(TestUser::class));
 
         $eventDispatcherMock = $this->getEventDispatcherMock(FOSUserEvents::USER_CREATED, true);
 
@@ -54,7 +56,7 @@ class UserManipulatorTest extends TestCase
 
     public function testActivateWithValidUsername()
     {
-        $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
+        $userManagerMock = $this->getMockBuilder(UserManagerInterface::class)->getMock();
         $username = 'test_username';
 
         $user = new TestUser();
@@ -63,13 +65,13 @@ class UserManipulatorTest extends TestCase
 
         $userManagerMock->expects($this->once())
             ->method('findUserByUsername')
-            ->will($this->returnValue($user))
+            ->willReturn($user)
             ->with($this->equalTo($username));
 
         $userManagerMock->expects($this->once())
             ->method('updateUser')
-            ->will($this->returnValue($user))
-            ->with($this->isInstanceOf('FOS\UserBundle\Tests\TestUser'));
+            ->willReturn($user)
+            ->with($this->isInstanceOf(TestUser::class));
 
         $eventDispatcherMock = $this->getEventDispatcherMock(FOSUserEvents::USER_ACTIVATED, true);
 
@@ -92,7 +94,7 @@ class UserManipulatorTest extends TestCase
 
         $userManagerMock->expects($this->once())
             ->method('findUserByUsername')
-            ->will($this->returnValue(null))
+            ->willReturn(null)
             ->with($this->equalTo($invalidusername));
 
         $userManagerMock->expects($this->never())
@@ -380,11 +382,11 @@ class UserManipulatorTest extends TestCase
      */
     protected function getEventDispatcherMock($event, $once = true)
     {
-        $eventDispatcherMock = $this->getMockBuilder('Symfony\Contracts\EventDispatcher\EventDispatcherInterface')->getMock();
+        $eventDispatcherMock = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
 
         $eventDispatcherMock->expects($once ? $this->once() : $this->never())
             ->method('dispatch')
-            ->with($event);
+            ->withAnyParameters();
 
         return $eventDispatcherMock;
     }

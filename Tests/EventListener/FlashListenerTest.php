@@ -14,7 +14,10 @@ namespace FOS\UserBundle\Tests\EventListener;
 use FOS\UserBundle\EventListener\FlashListener;
 use FOS\UserBundle\FOSUserEvents;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class FlashListenerTest extends TestCase
 {
@@ -28,15 +31,15 @@ class FlashListenerTest extends TestCase
     {
         $this->event = new Event();
 
-        $flashBag = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Flash\FlashBag')->getMock();
+        $flashBag = $this->getMockBuilder(FlashBag::class)->getMock();
 
-        $session = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')->disableOriginalConstructor()->getMock();
+        $session = $this->getMockBuilder(Session::class)->disableOriginalConstructor()->getMock();
         $session
             ->expects($this->once())
             ->method('getFlashBag')
             ->willReturn($flashBag);
 
-        $translator = $this->getMockBuilder('Symfony\Component\Translation\TranslatorInterface')->getMock();
+        $translator = $this->getMockBuilder(\Symfony\Contracts\Translation\TranslatorInterface::class)->getMock();
 
         $this->listener = new FlashListener($session, $translator);
     }

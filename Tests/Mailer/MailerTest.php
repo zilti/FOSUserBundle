@@ -15,6 +15,7 @@ use FOS\UserBundle\Mailer\Mailer;
 use PHPUnit\Framework\TestCase;
 use Swift_Mailer;
 use Swift_Transport_NullTransport;
+use Twig\Environment;
 
 class MailerTest extends TestCase
 {
@@ -101,12 +102,9 @@ class MailerTest extends TestCase
 
     private function getTemplating()
     {
-        $templating = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface')
+        return $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
-
-        return $templating;
+            ->getMock();
     }
 
     private function getUser($emailAddress)
