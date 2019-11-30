@@ -25,7 +25,7 @@ class PasswordUpdaterTest extends TestCase
     private $updater;
     private $encoderFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->encoderFactory = $this->getMockBuilder(EncoderFactoryInterface::class)->getMock();
 
@@ -56,6 +56,7 @@ class PasswordUpdaterTest extends TestCase
 
     public function testUpdatePasswordWithBCrypt()
     {
+        // $encoder = new NativePasswordEncoder(null, null, null, PASSWORD_BCRYPT);
         $encoder = new NativePasswordEncoder();
         $user = new TestUser();
         $user->setPlainPassword('password');

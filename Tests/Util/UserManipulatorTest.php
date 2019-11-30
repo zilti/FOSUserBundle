@@ -84,11 +84,9 @@ class UserManipulatorTest extends TestCase
         $this->assertTrue($user->isEnabled());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testActivateWithInvalidUsername()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
         $invalidusername = 'invalid_username';
 
@@ -138,11 +136,9 @@ class UserManipulatorTest extends TestCase
         $this->assertFalse($user->isEnabled());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDeactivateWithInvalidUsername()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
         $invalidusername = 'invalid_username';
 
@@ -192,11 +188,9 @@ class UserManipulatorTest extends TestCase
         $this->assertTrue($user->isSuperAdmin());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testPromoteWithInvalidUsername()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
         $invalidusername = 'invalid_username';
 
@@ -246,11 +240,9 @@ class UserManipulatorTest extends TestCase
         $this->assertFalse($user->isSuperAdmin());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDemoteWithInvalidUsername()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
         $invalidusername = 'invalid_username';
 
@@ -303,11 +295,9 @@ class UserManipulatorTest extends TestCase
         $this->assertSame($password, $user->getPlainPassword());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testChangePasswordWithInvalidUsername()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $userManagerMock = $this->getMockBuilder('FOS\UserBundle\Model\UserManagerInterface')->getMock();
 
         $invalidusername = 'invalid_username';

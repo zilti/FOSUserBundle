@@ -14,6 +14,7 @@ namespace FOS\UserBundle\Tests\Mailer;
 use FOS\UserBundle\Mailer\Mailer;
 use PHPUnit\Framework\TestCase;
 use Swift_Mailer;
+use Swift_RfcComplianceException;
 use Swift_Transport_NullTransport;
 use Twig\Environment;
 
@@ -32,10 +33,10 @@ class MailerTest extends TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendConfirmationEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendConfirmationEmailMessage($this->getUser($emailAddress));
     }
@@ -53,10 +54,10 @@ class MailerTest extends TestCase
 
     /**
      * @dataProvider badEmailProvider
-     * @expectedException \Swift_RfcComplianceException
      */
     public function testSendResettingEmailMessageWithBadEmails($emailAddress)
     {
+        $this->expectException(Swift_RfcComplianceException::class);
         $mailer = $this->getMailer();
         $mailer->sendResettingEmailMessage($this->getUser($emailAddress));
     }
