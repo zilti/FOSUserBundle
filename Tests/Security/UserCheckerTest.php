@@ -38,7 +38,7 @@ class UserCheckerTest extends TestCase
     public function testCheckPreAuthFailsIsAccountNonExpired()
     {
         $this->expectException(\Symfony\Component\Security\Core\Exception\AccountExpiredException::class);
-        $this->expectDeprecationMessage('User account has expired.');
+        $this->expectExceptionMessage('User account has expired.');
         $userMock = $this->getUser(true, true, false, false);
         $checker = new UserChecker();
         $checker->checkPreAuth($userMock);
@@ -59,7 +59,7 @@ class UserCheckerTest extends TestCase
     public function testCheckPostAuthFailsIsCredentialsNonExpired()
     {
         $this->expectException(\Symfony\Component\Security\Core\Exception\CredentialsExpiredException::class);
-        $this->expectDeprecationMessage('User credentials have expired.');
+        $this->expectExceptionMessage('User credentials have expired.');
         $userMock = $this->getUser(true, true, true, false);
         $checker = new UserChecker();
         $checker->checkPostAuth($userMock);
