@@ -186,8 +186,8 @@ class ResettingController extends AbstractController
             }
 
             $this->eventDispatcher->dispatch(
-                FOSUserEvents::RESETTING_RESET_COMPLETED,
-                new FilterUserResponseEvent($user, $request, $response)
+                new FilterUserResponseEvent($user, $request, $response),
+                FOSUserEvents::RESETTING_RESET_COMPLETED
             );
 
             return $response;
